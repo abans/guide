@@ -4,17 +4,17 @@
 
 ## Table of Contents
 
-  1. [命名规范](#命名规范)
-  1. [Naming](#naming)
-  1. [Declaration](#declaration)
-  1. [Alignment](#alignment)
-  1. [Quotes](#quotes)
-  1. [Spacing](#spacing)
-  1. [Props](#props)
-  1. [Parentheses](#parentheses)
-  1. [Tags](#tags)
-  1. [Methods](#methods)
-  1. [Ordering](#ordering)
+	1. [命名规范](#命名规范)
+	1. [Naming](#naming)
+	1. [Declaration](#declaration)
+	1. [Alignment](#alignment)
+	1. [Quotes](#quotes)
+	1. [Spacing](#spacing)
+	1. [Props](#props)
+	1. [Parentheses](#parentheses)
+	1. [Tags](#tags)
+	1. [Methods](#methods)
+	1. [Ordering](#ordering)
 
 ## 命名规范
 
