@@ -130,6 +130,7 @@
 
 ## 多级对象取值
   - 对于不确定的多级对象直接取值要用Acan.objGet (可以防止程序崩溃)
+
     ```javascript
     Acan.objGet(a,'b.0.c') 等于 a.b[0].c
     Acan.objGet(a,'b.0.c','') 第三个参数为默认值，当值取不到的时候返回设置的默认值
@@ -137,6 +138,7 @@
 
 ## 函数参数的灵活定义
   - 支持多种写法，回调统一取法 a.__cb();
+
     ```javascript
     function test () {
     	var a=Acan.argObj(arguments,['url','filepath','name','maxWidth']);
