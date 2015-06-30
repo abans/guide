@@ -11,6 +11,7 @@
   1. [多级对象取值](#多级对象取值)
   1. [函数参数的灵活定义](#函数参数的灵活定义)
   1. [额外的建议](#额外的建议)
+  1. [嵌套回调并发处理](#嵌套回调并发处理)
 
 ## 命名规范
 
@@ -167,10 +168,95 @@
 
 **[⬆ back to top](#table-of-contents)**
 
-## 额外的建议 
+## 额外的建议
 
   - {}和[]
     - 使用{}替代new Object()。使用[]替代new Array()。 
     - 当成员名字为连续的整数时使用数组。当成员名字为任意的字符串或名字时使用对象。
+
+**[⬆ back to top](#table-of-contents)**
+
+## 嵌套回调并发处理
+  - 前端
+
+    ```javascript
+    var rs={};//当前页的数据汇总
+    //定义总回调
+    var ccb=Acan.ccb(3,function(){
+    	//在总回调中进行模版的渲染
+    	var html=swig.render(Atpl.tplName,{locals:rs});
+    	$('#appendDiv').append(html);
+    	// ...
+    });
+    //缓存的方式取配置选项
+    Afn.apic('config/opt',{key : 'homestayInterests'},function(opt){
+    	rs.homestayInterests=opt;
+    	ccb.cb();
+    },3600);
+    //缓存的方式取模版文件
+    Afn.tpl('tplName','public/send.html',function(){
+    	ccb.cb();
+    });
+    //从API获取数据
+    Acan.geolocation(function(lat, lng){
+    	Afn.api('pic/list',{latlng:lat+','+lng},function(json){
+    		if(Acan.isArr(Acan.objGet(json,'data')))
+    			rs.data=json.data;
+    		ccb.cb();
+    	});
+    });
+    ```
+
+  - nodejs:
+
+    ```javascript
+    var rs={};//当前页的数据汇总
+    //定义总回调
+    var ccb=Acan.ccb(3,function(){
+    	// ...
+    });
+    Acache.get('test',function(err,obj){
+    	if(!err){
+    		rs.test=obj;
+    	}
+    	ccb.cb();
+    });
+    Adb.model1.findById(_id,function(err,doc){
+    	if(!err){
+    		rs.model1=doc.doc_api();
+    	}
+    	ccb.cb();
+    })
+    Adb.model2.find(function(err,docs){
+    	if(err){
+    		ccb.cb();
+    		return;
+    	}
+    	if(!Acan.isArr(docs)){
+    		ccb.cb();
+    		return;
+    	}
+    	rs.data=Afn.docs_api(req,docs);
+    	rs.data.forEach(function(v,k){
+    		var model=modelArr[v.tp];
+    		if(!v.rid){
+    			return;
+    		}
+    		ccb.at();
+    		Adb.pic.get(req,{rid:v.rid},function(err,pics){
+    			v.pics=pics;
+    			ccb.cb();
+    		}
+    		if(!v.uid){
+    			return;
+    		}
+    		ccb.at();
+    		v.uid.populate({select: 'nickname'},function(err,docUid){
+    			ccb.cb();
+    		});
+    	});
+    	ccb.cb();
+    });
+    ```
 
 **[⬆ back to top](#table-of-contents)**
