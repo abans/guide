@@ -131,30 +131,30 @@
 ## 多级对象取值
   - 对于不确定的多级对象直接取值要用Acan.objGet (可以防止程序崩溃)
     ```javascript
-	Acan.objGet(a,'b.0.c') 等于 a.b[0].c
-	Acan.objGet(a,'b.0.c','') 第三个参数为默认值，当值取不到的时候返回设置的默认值
+    Acan.objGet(a,'b.0.c') 等于 a.b[0].c
+    Acan.objGet(a,'b.0.c','') 第三个参数为默认值，当值取不到的时候返回设置的默认值
     ```
 
 ## 函数参数的灵活定义
   - 支持多种写法，回调统一取法 a.__cb();
     ```javascript
-	function test () {
-		var a=Acan.argObj(arguments,['url','filepath','name','maxWidth']);
-		console.log(a);//{"maxWidth":{"a":"4"},"name":["3"],"filepath":2,"url":"1","__cb":function(){var ttt=123;}}
-		//取参数值
-		a.url='1';
-		a.name=["3"];
-	}
-	test('1',2,['3'],{a:'4'},function(){
-		var ttt=123;
-	});
-	test('1',2,['3'],function(){
-		var ttt=123;
-	});
-	test('1',2,function(){
-		var ttt=123;
-	});
-	//支持多种写法，回调统一取法 a.__cb();
+    function test () {
+    	var a=Acan.argObj(arguments,['url','filepath','name','maxWidth']);
+    	console.log(a);//{"maxWidth":{"a":"4"},"name":["3"],"filepath":2,"url":"1","__cb":function(){var ttt=123;}}
+    	//取参数值
+    	a.url='1';
+    	a.name=["3"];
+    }
+    test('1',2,['3'],{a:'4'},function(){
+    	var ttt=123;
+    });
+    test('1',2,['3'],function(){
+    	var ttt=123;
+    });
+    test('1',2,function(){
+    	var ttt=123;
+    });
+    //支持多种写法，回调统一取法 a.__cb();
     ```
 
 ## 额外的建议 
